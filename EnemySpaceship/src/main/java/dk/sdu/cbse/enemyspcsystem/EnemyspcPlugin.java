@@ -14,7 +14,6 @@ public class EnemyspcPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-
         // Add entities to the world
         enemy = createEnemySpaceship(gameData);
         world.addEntity(enemy);

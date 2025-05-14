@@ -1,6 +1,7 @@
 package dk.sdu.cbse.main;
 
 
+import dk.sdu.cbse.common.bullet.BulletSPI;
 import dk.sdu.cbse.common.data.Entity;
 import dk.sdu.cbse.common.data.GameData;
 import dk.sdu.cbse.common.data.GameKeys;
@@ -12,8 +13,22 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
 
+import static dk.sdu.cbse.main.PluginLoader.loadPluginLayer;
+import static java.util.stream.Collectors.toList;
+import java.lang.module.ModuleReference;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleDescriptor;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.ServiceLoader.Provider;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import dk.sdu.cbse.common.util.ServiceLocator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,6 +44,7 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
+    private ModuleLayer pluginLayer;
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -36,6 +52,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
+        pluginLayer = loadPluginLayer(Set.of("bulletsystemplugin"));  // Add more if needed
+
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
@@ -106,6 +124,20 @@ public class Main extends Application {
             postEntityProcessorService.process(gameData, world);
         }
     }
+    private ModuleLayer loadPluginLayer(Set<String> moduleNames) {
+        try {
+            Path pluginsDir = Paths.get("plugins");
+            ModuleFinder finder = ModuleFinder.of(pluginsDir);
+            ModuleLayer parent = ModuleLayer.boot();
+            Configuration config = parent.configuration()
+                    .resolve(finder, ModuleFinder.of(), moduleNames);
+            ClassLoader scl = ClassLoader.getSystemClassLoader();
+            return parent.defineModulesWithOneLoader(config, scl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ModuleLayer.boot(); // fallback
+        }
+    }
 
     private void draw() {
         for (Entity polygonEntity : polygons.keySet()) {
@@ -131,14 +163,23 @@ public class Main extends Application {
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return ServiceLoader.load(pluginLayer, IGamePluginService.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(toList());
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return ServiceLoader.load(pluginLayer, IEntityProcessingService.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(toList());
     }
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return ServiceLoader.load(pluginLayer, IPostEntityProcessingService.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(toList());
     }
 }

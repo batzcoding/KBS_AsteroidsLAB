@@ -1,4 +1,4 @@
-package dk.sdu.cbse.collisionsystem;
+package dk.sdu.cbse.bulletsystem;
 
 
 import dk.sdu.cbse.common.services.IPostEntityProcessingService;
@@ -22,21 +22,26 @@ public class CollisionDetector implements IPostEntityProcessingService {
                     continue;
                 }
 
-                // CollisionDetection
-                if (this.collides(entity1, entity2)) {
+                if (checkCollision(entity1, entity2)) {
+                    System.out.println("Collision detected between: " +
+                            entity1.getClass().getSimpleName() + " and "
+                            + entity2.getClass().getSimpleName());
                     world.removeEntity(entity1);
                     world.removeEntity(entity2);
+                    return;
+
+
                 }
+
             }
         }
 
     }
-
-    public Boolean collides(Entity entity1, Entity entity2) {
-        float dx = (float) entity1.getX() - (float) entity2.getX();
-        float dy = (float) entity1.getY() - (float) entity2.getY();
+    private boolean checkCollision(Entity a, Entity b) {
+        float dx = (float) (a.getX() - b.getX());
+        float dy = (float) (a.getY() - b.getY());
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        return distance < (entity1.getRadius() + entity2.getRadius());
+        return distance < (a.getRadius() + b.getRadius());
     }
 
 }

@@ -8,6 +8,13 @@
         <option value="$PROJECT_DIR$/Core/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Lab3JPMS/pom.xml" />
+        <option value="$PROJECT_DIR$/Package1/pom.xml" />
+        <option value="$PROJECT_DIR$/Package2/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

@@ -29,7 +29,7 @@ import dk.sdu.cbse.common.services.IEntityProcessingService;
             bullet.setX(shooter.getX() + changeX * 10);
             bullet.setY(shooter.getY() + changeY * 10);
             bullet.setRotation(shooter.getRotation());
-            bullet.setRadius(1);
+            bullet.setRadius(2);
             return bullet;
         }
     }

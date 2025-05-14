@@ -23,7 +23,7 @@ public class EnemyspcControlSystem implements IEntityProcessingService {
         for (Entity enemy : world.getEntities(Enemyspc.class)) {
 
             int moveDirection = random.nextInt(4); // 0 = left, 1 = right, 2 = up, 3 = down
-            double speed = 2.0; // Adjust speed as needed
+            double speed = 4.0; // Adjust speed as needed
 
             switch (moveDirection) {
                 case 0: enemy.setX(enemy.getX() - speed); break; // Move left
