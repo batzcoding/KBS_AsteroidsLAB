@@ -533,6 +533,7 @@
       <module>CommonBullet</module>
     <module>EnemySpaceship</module>
       <module>Collision</module>
+      <module>Map</module>
 
 
   </modules>
