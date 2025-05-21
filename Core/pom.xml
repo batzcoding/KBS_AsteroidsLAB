@@ -15,6 +15,26 @@
     <dependencies>
         <dependency>
             <groupId>dk.sdu.cbse</groupId>
+            <artifactId>Collision</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.cbse</groupId>
+            <artifactId>Map</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.cbse</groupId>
+            <artifactId>Asteriods</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.cbse</groupId>
+            <artifactId>CommonAsteriods</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.cbse</groupId>
             <artifactId>Bullet</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

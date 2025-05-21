@@ -4,6 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameData {
+    private int asteroidsDestroyed = 0;
+
+    public int getAsteroidsDestroyed() {
+        return asteroidsDestroyed;
+    }
+
+    public void incrementAsteroidsDestroyed() {
+        this.asteroidsDestroyed++;
+    }
+
+    public void resetAsteroidsDestroyed() {
+        this.asteroidsDestroyed = 0;
+    }
+
 
     private int displayWidth  = 800 ;
     private int displayHeight = 800;

@@ -534,6 +534,8 @@
     <module>EnemySpaceship</module>
       <module>Collision</module>
       <module>Map</module>
+    <module>Asteriods</module>
+    <module>CommonAsteriods</module>
 
 
   </modules>
