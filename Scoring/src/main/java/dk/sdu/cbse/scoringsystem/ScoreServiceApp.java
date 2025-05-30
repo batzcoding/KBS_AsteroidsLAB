@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ScoreServiceApp {
 
-    private long currentScore = 0;
+    private long score = 0;
 
     public static void main(String[] args) {
         SpringApplication.run(ScoreServiceApp.class, args);
     }
 
     @GetMapping("/score")
-    public long updateScore(@RequestParam(name = "point") long pointsEarned) {
-        currentScore += pointsEarned;
-        return currentScore;
+    public long updateScore(@RequestParam(name = "point") long points) {
+        score += points;
+        return score;
     }
 }
 
